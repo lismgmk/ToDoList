@@ -34,7 +34,7 @@ export type TasksStateType = {
 
 function App() {
     //bll
-
+    const [newValue, setNewValue] = useState('')
     const toDoListID_1 = v1()
     const toDoListID_2 = v1()
 
@@ -42,8 +42,6 @@ function App() {
         {id: toDoListID_1, title: "What to learn", filter: 'all'},
         {id: toDoListID_2, title: "What to bye", filter: 'all'}
     ])
-
-    const [newValue, setNewValue] = useState('')
 
     const [tasks, setTasks] = useState<TasksStateType>({
         [toDoListID_1]: [
