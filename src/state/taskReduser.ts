@@ -1,4 +1,4 @@
-import {FilterValuesType, TasksStateType, ToDoListType} from "../App";
+import {FilterValuesType, TasksStateType, ToDoListType} from "../AppWithRedux";
 import {v1} from "uuid";
 import {strict} from "assert";
 import {AddToDoListAT, RemoveToDoListAT} from "./toDoListReduser";
@@ -32,13 +32,14 @@ export type ChangeTaskTitleType = {
 type ActionType = RemoveTaskActionType | ChangeTaskStatusType | ChangeTaskTitleType |
     AddTaskType | AddToDoListAT | RemoveToDoListAT
 
-export const taskReduser = (state: TasksStateType, action: ActionType): TasksStateType => {
+export const taskReduser = (state: TasksStateType={}, action: ActionType): TasksStateType => {
     switch (action.type) {
         case "REMOVE_TASK":
             let copySate = {...state}
             copySate[action.todolostId] = copySate[action.todolostId].filter(task => task.id !== action.taskId)
             return copySate
         case "ADDTASK":
+            debugger
             const newTasks = {
                 id: v1(),
                 title: action.title,
@@ -81,6 +82,7 @@ export const taskReduser = (state: TasksStateType, action: ActionType): TasksSta
         }
 
         case "ADD-TODOLIST": {
+            debugger
             return {...state,
                  [action.idToDoList]: []
             }

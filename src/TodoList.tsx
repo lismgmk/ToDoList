@@ -1,12 +1,12 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
-import {FilterValuesType, mytasksType} from "./App";
+import React, {ChangeEvent, KeyboardEvent, useCallback, useMemo, useState} from "react";
+import {FilterValuesType, mytasksType} from "./AppWithRedux";
 import AddItemForm from "./AddItemForm";
 import EditableSpan from "./EditableSpan";
 import {Button, Checkbox, IconButton} from "@material-ui/core";
 import {CheckBox, Delete} from "@material-ui/icons";
 
 
- type TaskType = {
+  type TaskType = {
     id: string
     title: string
     isDone: boolean
@@ -19,25 +19,23 @@ import {CheckBox, Delete} from "@material-ui/icons";
      task: Array<TaskType>
      changeToDoListFilter: (newFilterValue: FilterValuesType, toDoListID: string) => void
      removeTask: (taskID: string, toDoListID: string) => void
-     addTask: (title:string, toDoListID: string) => void
+     addTask: (title: string, toDoListID: string) => void
      toDoListFilter: FilterValuesType
      changeTaskStatus: (value: string, newisDoneValue: boolean, toDoListID: string)=>void
      changeTaskTitle: (taskID: string, title: string, toDoListID: string)=> void
      changeToDoListTitle: (title: string, toDoListID: string)=> void
  }
 
-function TodoList(props: PropsType){
-
-    //
-    // const [error, setError] = useState<string|null>(null)
-    // const [title, setTitle] = useState<string>('')
+const TodoList = React.memo((props: PropsType)=>{
+    console.log('add todo list')
+debugger
     const task = props.task.map((i) => {
-    const chahgeStatus = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(i.id, e.currentTarget.checked, props.id);
-    const changeTaskTitle = (title: string)=>{
-        props.changeTaskTitle(i.id, title, props.id)
-    }
+        const chahgeStatus = (e: ChangeEvent<HTMLInputElement>) => props.changeTaskStatus(i.id, e.currentTarget.checked, props.id);
+        const changeTaskTitle = (title: string)=>{
+            props.changeTaskTitle(i.id, title, props.id)
+        }
         return (
-            <li >
+            <li key={i.id}>
 
                 <Checkbox
                     color={'primary'}
@@ -67,11 +65,11 @@ function TodoList(props: PropsType){
         props.removeToDoList(props.id)
     }
 
-const changeTodoListTitle = (title: string)=>props.changeToDoListTitle(title, props.id)
-    const addTask = (title: string) => props.addTask(title, props.id)
+    const changeTodoListTitle = (title: string) => props.changeToDoListTitle(title, props.id)
+    const addTasks = (title: string) =>
+        props.addTask(title, props.id)
 
-    return(
-
+    return (
         <div>
             <h3>
 
@@ -84,7 +82,7 @@ const changeTodoListTitle = (title: string)=>props.changeToDoListTitle(title, pr
 
 
             </h3>
-           <AddItemForm addItem={addTask}/>
+            <AddItemForm addItem={addTasks}/>
             <ul style={{listStyle: 'none', padding: '0px'}}>
                 {task}
             </ul>
@@ -117,6 +115,6 @@ const changeTodoListTitle = (title: string)=>props.changeToDoListTitle(title, pr
         </div>
 
     )
-}
+})
 
 export default TodoList
