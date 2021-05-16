@@ -6,7 +6,7 @@ import {
     toDoListReduser
 } from './toDoListReduser';
 import {v1} from 'uuid';
-import {FilterValuesType, ToDoListType} from '../App';
+import {FilterValuesType, ToDoListType} from '../AppWithRedux';
 
 
 let todolistId1: string
@@ -61,6 +61,6 @@ test('correct todolist should be CHANGE-TODOLIST-FILTER', () => {
     const endState = toDoListReduser(startState, ChangeToDoListFilterAT('active', todolistId2))
 
     expect(endState.length).toBe(2);
-    expect(endState[1].title).toBe("active");
+    expect(endState[1].filter).toBe("active");
 });
 

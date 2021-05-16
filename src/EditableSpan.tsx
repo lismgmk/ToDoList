@@ -1,12 +1,17 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {TextField} from "@material-ui/core";
+import {useDispatch} from "react-redux";
+import {changeTaskTitleAC} from "./state/taskReduser";
 
 type EditableSpanType = {
     title: string
     changeTitle: (title: string) => void
 }
 
-function EditableSpan (props: EditableSpanType){
+const EditableSpan = React.memo(function (props: EditableSpanType){
+
+    console.log('add editable span')
+
     const [error, setError] = useState<boolean>(false)
 
     const [title, setTitle] = useState<string>(props.title)
@@ -41,6 +46,6 @@ function EditableSpan (props: EditableSpanType){
             />
             : <span onDoubleClick={onEditMode}>{props.title}</span>
     )
-};
+})
 
 export default EditableSpan

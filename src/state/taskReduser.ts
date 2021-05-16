@@ -39,7 +39,7 @@ export const taskReduser = (state: TasksStateType={}, action: ActionType): Tasks
             copySate[action.todolostId] = copySate[action.todolostId].filter(task => task.id !== action.taskId)
             return copySate
         case "ADDTASK":
-            debugger
+
             const newTasks = {
                 id: v1(),
                 title: action.title,
@@ -82,7 +82,7 @@ export const taskReduser = (state: TasksStateType={}, action: ActionType): Tasks
         }
 
         case "ADD-TODOLIST": {
-            debugger
+
             return {...state,
                  [action.idToDoList]: []
             }

@@ -1,39 +1,41 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from "react";
 import {IconButton, TextField} from "@material-ui/core";
 import {AddBox} from "@material-ui/icons";
+import {AddToDoListAT} from "./state/toDoListReduser";
+import {useDispatch} from "react-redux";
 
-
-type AddItemPropsType = { //родительский колбэк
-    addItem: (title: string) => void
+type addItemFormType = {
+    addItem: (title : string) => void
 }
-const AddItemForm = React.memo(function (props: AddItemPropsType){
+
+
+const AddItemForm = React.memo(function (props: addItemFormType){
+    console.log('Add item form')
+
     const [error, setError] = useState<string|null>(null)
     const [title, setTitle] = useState<string>('')
 
-
+    const dispatch = useDispatch();
 
     const errorMessage = error ? <div>{error}</div> : null
-    const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
+    const changeTitle = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         error && setError(null)
         setTitle(e.currentTarget.value)
+    },[title, error] )
 
-    }
-
-    const addItem = () => {
-
+    const addItem = useCallback (() => {
         // error && setError(null)
         const trimmedTitle = title.trim()
         if(trimmedTitle){
             props.addItem(trimmedTitle)
-            // setError(null)
-         }
-         else{
+        }
+        else{
             setError('Ошибка ввода')
         }
         setTitle('')
-    }
-    const onKeyPressAddItem = (e : KeyboardEvent<HTMLInputElement>) => {
+    },[title, props.addItem, error] )
 
+    const onKeyPressAddItem = (e : KeyboardEvent<HTMLInputElement>) => {
         if(e.key === 'Enter'){
             addItem()
         }
