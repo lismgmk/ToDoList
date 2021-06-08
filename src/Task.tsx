@@ -16,7 +16,7 @@ type TaskType = {
     isDone: boolean
 };
 
-type PropsType = {
+export type PropsType = {
     idTodolist: string
     idTask: string
     isDone: boolean

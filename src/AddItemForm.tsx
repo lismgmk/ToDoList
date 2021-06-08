@@ -4,7 +4,7 @@ import {AddBox} from "@material-ui/icons";
 import {AddToDoListAT} from "./state/toDoListReduser";
 import {useDispatch} from "react-redux";
 
-type addItemFormType = {
+export type addItemFormType = {
     addItem: (title : string) => void
 }
 

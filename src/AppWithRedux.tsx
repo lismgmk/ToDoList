@@ -1,15 +1,11 @@
 import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from 'react';
 import './App.css';
 import TodoList from "./TodoList";
-import MyToDoList from "./myComponent/mytoDoList";
-import {v1} from "uuid";
-import {strict} from "assert";
 import AddItemForm from "./AddItemForm";
 import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography} from "@material-ui/core";
 import {Menu} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/taskReduser";
 import {AddToDoListAT, ChangeToDoListFilterAT, ChangeToDoListTitleAT, RemoveToDoListAT} from "./state/toDoListReduser";
 
 export type tasksType = {
