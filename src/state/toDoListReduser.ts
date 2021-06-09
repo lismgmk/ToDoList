@@ -1,5 +1,8 @@
 import {FilterValuesType, ToDoListType} from "../AppWithRedux";
 import {v1} from "uuid";
+import {todolistAPI, TodolistType} from "../api/todolist-api";
+import {Dispatch} from "redux";
+
 
 export type RemoveToDoListAT = {
     type: "REMOVE-TODOLIST"
@@ -25,10 +28,19 @@ export type ChangeToDoListFilterAT = {
     toDoListID: string
 }
 
-type ActionType = RemoveToDoListAT | AddToDoListAT | ChangeToDoListTitleAT | ChangeToDoListFilterAT
+export type GetToDoListTypeAT = {
+    type: "GET-TODOLISTS"
+    ApiToDoLists: Array<TodolistType>
+}
+
+type ActionType = RemoveToDoListAT | AddToDoListAT | ChangeToDoListTitleAT | ChangeToDoListFilterAT | GetToDoListTypeAT
 
 export const toDoListReduser = (toDoLists: Array<ToDoListType>=[], action: ActionType) : Array<ToDoListType> => {
     switch (action.type) {
+        case "GET-TODOLISTS":
+            return  action.ApiToDoLists.map((tl)=>{
+                return {...tl, filter: 'all'}
+            });
         case "REMOVE-TODOLIST":
             return toDoLists.filter(i => i.id !== action.toDoListID)
         case "ADD-TODOLIST":
@@ -69,3 +81,20 @@ export const ChangeToDoListFilterAT = (newFilter: FilterValuesType, newId: strin
         toDoListID: newId
     }
 }
+
+export const GetToDoListsAT  = (toDoLists: Array<TodolistType>): GetToDoListTypeAT => {
+    return {
+        type: "GET-TODOLISTS",
+        ApiToDoLists: toDoLists
+    }
+}
+
+export const fetchTodolistsThunkAT = () => {
+    return (dispatch: Dispatch)=>{
+        todolistAPI.getTodolist()
+            .then(data =>
+                dispatch(GetToDoListsAT(data.data))
+            )
+    }
+}
+

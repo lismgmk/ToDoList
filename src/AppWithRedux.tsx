@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useCallback, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useCallback, useEffect, useState} from 'react';
 import './App.css';
 import TodoList from "./TodoList";
 import AddItemForm from "./AddItemForm";
@@ -6,7 +6,15 @@ import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography}
 import {Menu} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
-import {AddToDoListAT, ChangeToDoListFilterAT, ChangeToDoListTitleAT, RemoveToDoListAT} from "./state/toDoListReduser";
+import {
+    AddToDoListAT,
+    ChangeToDoListFilterAT,
+    ChangeToDoListTitleAT, fetchTodolistsThunkAT,
+    GetToDoListsAT,
+    RemoveToDoListAT,
+} from "./state/toDoListReduser";
+import {todolistAPI, TodolistType} from "./api/todolist-api";
+import {fetchTasksThunkAT} from "./state/taskReduser";
 
 export type tasksType = {
     id: string
@@ -34,7 +42,12 @@ export type TasksStateType = {
 function AppWithRedux() {
     //bll
 
+    useEffect(() => {
+            dispatch(fetchTodolistsThunkAT())
+            dispatch(fetchTasksThunkAT('07111a8a-4a62-4c9b-b94c-a4035c493bc6'))
 
+        },
+        [])
 
     const toDoLists = useSelector<AppRootStateType, Array<ToDoListType>>(state => state.todolists);
     const dispatch = useDispatch();
