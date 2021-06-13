@@ -1,21 +1,22 @@
 import React, {ChangeEvent, KeyboardEvent, useCallback, useMemo, useState} from "react";
-import {FilterValuesType, mytasksType, TasksStateType, tasksType, ToDoListType} from "./AppWithRedux";
+import {FilterValuesType,  TasksStateType, ToDoListType} from "./AppWithRedux";
 import AddItemForm from "./AddItemForm";
 import EditableSpan from "./EditableSpan";
 import {Button, Checkbox, IconButton} from "@material-ui/core";
 import {CheckBox, Delete} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/taskReduser";
+import {addTaskAC, addTaskThunkAT, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/taskReduser";
 import {ChangeToDoListFilterAT, ChangeToDoListTitleAT, RemoveToDoListAT} from "./state/toDoListReduser";
 import Task from "./Task";
+import {TasksType} from "./api/todolist-api";
 
 
-type TaskType = {
-    id: string
-    title: string
-    isDone: boolean
-};
+// type TaskType = {
+//     id: string
+//     title: string
+//     isDone: boolean
+// };
 
 type  PropsType = {
     id: string
@@ -25,7 +26,7 @@ type  PropsType = {
 
 const TodoList = React.memo((props: PropsType) => {
     console.log('ToDoList')
-    let tasks = useSelector<AppRootStateType, Array<TaskType>>(state => state.tasks[props.id]);
+    let tasks = useSelector<AppRootStateType, Array<TasksType>>(state => state.tasks[props.id]);
     const dispatch = useDispatch();
 
 
@@ -33,11 +34,11 @@ const TodoList = React.memo((props: PropsType) => {
     let taskForToDolist = allToDoLists;
 
     if (props.filter == "active") {
-        taskForToDolist = allToDoLists.filter(tl => tl.isDone === false)
+        taskForToDolist = allToDoLists.filter(tl => tl.status === false)
     }
 
     if (props.filter === "completed") {
-        taskForToDolist = allToDoLists.filter(tl => tl.isDone === true)
+        taskForToDolist = allToDoLists.filter(tl => tl.status === true)
     }
 
 
@@ -48,7 +49,7 @@ const TodoList = React.memo((props: PropsType) => {
                     key={i.id}
                     idTodolist={props.id}
                     idTask={i.id}
-                    isDone={i.isDone}
+                    isDone={i.status}
                     title={i.title}
                 />
 
@@ -88,7 +89,10 @@ const TodoList = React.memo((props: PropsType) => {
     } ,[props.id])
 
     const changeTitleTodoListHander = useCallback((title: string) => dispatch(ChangeToDoListTitleAT(title, props.id)) ,[props.id])
-    const addTask = useCallback((title: string) => dispatch(addTaskAC(title, props.id)) , [ props.id])
+    const addTask = useCallback(
+        (title: string) =>
+            dispatch(addTaskThunkAT( props.id, title))
+        , [ props.id])
 
     return (
         <div>

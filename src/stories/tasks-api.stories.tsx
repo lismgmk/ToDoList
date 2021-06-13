@@ -44,8 +44,8 @@ export const UpdateTask = () => {
         const request = {
             title: 'New',
             description: 'study',
-            completed: false,
-            status: 1,
+            completed: 1,
+            status: false,
             priority: 1,
             startDate: '01/01/2019',
             deadline: '01/09/2021'

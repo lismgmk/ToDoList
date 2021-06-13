@@ -13,19 +13,15 @@ import {
     GetToDoListsAT,
     RemoveToDoListAT,
 } from "./state/toDoListReduser";
-import {todolistAPI, TodolistType} from "./api/todolist-api";
+import {TasksType, todolistAPI, TodolistType} from "./api/todolist-api";
 import {fetchTasksThunkAT} from "./state/taskReduser";
+//
+// export type tasksType = {
+//     id: string
+//     title: string
+//     isDone: boolean
+// }
 
-export type tasksType = {
-    id: string
-    title: string
-    isDone: boolean
-}
-export type mytasksType = {
-    id: string
-    title: string
-    isDone: boolean
-}
 
 export type FilterValuesType = "all" | "active" | "completed"
 
@@ -36,7 +32,7 @@ export type ToDoListType = {
 }
 
 export type TasksStateType = {
-    [key: string]: Array<tasksType>
+    [key: string]: Array<TasksType>
 }
 
 function AppWithRedux() {

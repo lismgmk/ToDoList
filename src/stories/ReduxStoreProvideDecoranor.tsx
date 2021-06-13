@@ -18,14 +18,14 @@ const InitialReduser = {
     ],
     tasks: {
         [toDoListID_1]: [
-            {id: v1(), title: "HTML&CSS", isDone: true},
-            {id: v1(), title: "JS", isDone: true},
-            {id: v1(), title: "REACTJS", isDone: false}
+            {id: v1(), title: "HTML&CSS", status: true},
+            {id: v1(), title: "JS", status: true},
+            {id: v1(), title: "REACTJS", status: false}
         ],
         [toDoListID_2]: [
-            {id: v1(), title: "Milk", isDone: true},
-            {id: v1(), title: "Beer", isDone: true},
-            {id: v1(), title: "Water", isDone: false}
+            {id: v1(), title: "Milk", status: true},
+            {id: v1(), title: "Beer", status: true},
+            {id: v1(), title: "Water", status: false}
         ]
     }
 }

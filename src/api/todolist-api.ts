@@ -31,8 +31,8 @@ export type ActionTaskType = {
 export type  TasksType = {
     description: string,
     title:string
-    completed: boolean
-    status: number
+    completed: number
+    status: boolean
     priority: number
     startDate: string
     deadline: string
@@ -51,11 +51,11 @@ type TasksPostTypeResp <D = {}>= {
 export type UpdateTaskRequestType = {
     title: string
     description: string
-    status: number
+    status: boolean
     priority: number
     startDate: string
     deadline: string
-    completed: boolean
+    completed: number
 }
 
 

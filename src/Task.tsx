@@ -1,13 +1,19 @@
 import React, {ChangeEvent, KeyboardEvent, useCallback, useMemo, useState} from "react";
-import {FilterValuesType, mytasksType, TasksStateType, tasksType, ToDoListType} from "./AppWithRedux";
 import AddItemForm from "./AddItemForm";
 import EditableSpan from "./EditableSpan";
 import {Button, Checkbox, IconButton} from "@material-ui/core";
 import {CheckBox, Delete} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/taskReduser";
-import {ChangeToDoListFilterAT, ChangeToDoListTitleAT, RemoveToDoListAT} from "./state/toDoListReduser";
+import {
+    addTaskAC,
+    chahgeTaskStatusThunkAT,
+    changeTaskStatusAC,
+    changeTaskTitleAC,
+    removeTaskAC,
+    removeTaskThunkAT
+} from "./state/taskReduser";
+
 
 
 type TaskType = {
@@ -29,7 +35,7 @@ const Task = React.memo((props: PropsType ) => {
     const dispatch = useDispatch();
 
     const chahgeStatus = useCallback((e: ChangeEvent<HTMLInputElement>) =>
-        dispatch(changeTaskStatusAC(props.idTask, e.currentTarget.checked, props.idTodolist)) , [props.idTask, props.idTodolist]) ;
+        dispatch(chahgeTaskStatusThunkAT(props.idTask, e.currentTarget.checked, props.idTodolist)) , [props.idTask, props.idTodolist]) ;
 
         return (
             <li key={props.idTask}>
@@ -42,10 +48,10 @@ const Task = React.memo((props: PropsType ) => {
 
                 <EditableSpan
                     title={props.title}
-                    changeTitle={(title: string) => dispatch(changeTaskTitleAC(props.idTask, title, props.idTodolist))}
+                    changeTitle={useCallback((title: string) => dispatch(changeTaskTitleAC(props.idTask, title, props.idTodolist)),[])}
 
                 />
-                <IconButton onClick={() => dispatch(removeTaskAC(props.idTask, props.idTodolist))}>
+                <IconButton onClick={useCallback(() => dispatch(removeTaskThunkAT( props.idTodolist, props.idTask)) ,[])}>
                     <Delete/>
                 </IconButton>
 
