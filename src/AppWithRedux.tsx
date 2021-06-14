@@ -7,7 +7,7 @@ import {Menu} from "@material-ui/icons";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
 import {
-    AddToDoListAT,
+    AddToDoListAT, addTodolistsThunkAT,
     ChangeToDoListFilterAT,
     ChangeToDoListTitleAT, fetchTodolistsThunkAT,
     GetToDoListsAT,
@@ -48,7 +48,7 @@ function AppWithRedux() {
     const toDoLists = useSelector<AppRootStateType, Array<ToDoListType>>(state => state.todolists);
     const dispatch = useDispatch();
     const addToDoList = useCallback((toDoListTitle: string) => {
-        dispatch(AddToDoListAT(toDoListTitle))
+        dispatch(addTodolistsThunkAT(toDoListTitle))
     }, [])
 
     const todoListComponents = toDoLists.map((tl) =>{

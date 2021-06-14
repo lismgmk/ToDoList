@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
 import {
     addTaskAC,
-    chahgeTaskStatusThunkAT,
+    chahgeTaskStatusThunkAT, chahgeTaskTitleThunkAT,
     changeTaskStatusAC,
     changeTaskTitleAC,
     removeTaskAC,
@@ -48,7 +48,7 @@ const Task = React.memo((props: PropsType ) => {
 
                 <EditableSpan
                     title={props.title}
-                    changeTitle={useCallback((title: string) => dispatch(changeTaskTitleAC(props.idTask, title, props.idTodolist)),[])}
+                    changeTitle={useCallback((title: string) => dispatch(chahgeTaskTitleThunkAT(props.idTask, title, props.idTodolist)),[])}
 
                 />
                 <IconButton onClick={useCallback(() => dispatch(removeTaskThunkAT( props.idTodolist, props.idTask)) ,[])}>

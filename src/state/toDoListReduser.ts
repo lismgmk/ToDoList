@@ -62,8 +62,8 @@ export const RemoveToDoListAT = (id: string): RemoveToDoListAT => {
     return {type: "REMOVE-TODOLIST", toDoListID: id}
 }
 
-export const AddToDoListAT = (newTitle: string): AddToDoListAT => {
-    return {type: "ADD-TODOLIST", title: newTitle, idToDoList: v1()}
+export const AddToDoListAT = (newTitle: string, idToDoList: string): AddToDoListAT => {
+    return {type: "ADD-TODOLIST", title: newTitle, idToDoList}
 }
 
 export const ChangeToDoListTitleAT = (newTitle: string, newId: string): ChangeToDoListTitleAT => {
@@ -97,4 +97,32 @@ export const fetchTodolistsThunkAT = () => {
             )
     }
 }
+
+export const deleteTodolistsThunkAT = (toDolistId: string) => {
+    return (dispatch: Dispatch)=>{
+        todolistAPI.deleteTodolist(toDolistId)
+            .then(data =>
+                dispatch(RemoveToDoListAT(toDolistId))
+            )
+    }
+}
+
+export const addTodolistsThunkAT = (newTitle: string) => {
+    return (dispatch: Dispatch)=>{
+        todolistAPI.postTodolist(newTitle)
+            .then(data => dispatch(AddToDoListAT(data.data.data.item.title, data.data.data.item.id))
+            )
+    }
+}
+
+
+export const updateTodolistsThunkAT = (newTitle: string, toDoListId: string) => {
+    return (dispatch: Dispatch)=>{
+        todolistAPI.updateTodolist(toDoListId, newTitle)
+            .then(data => dispatch(ChangeToDoListTitleAT(newTitle, toDoListId))
+            )
+    }
+}
+
+
 
