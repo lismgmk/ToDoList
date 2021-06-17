@@ -11,6 +11,19 @@ import {v1} from "uuid";
 const toDoListID_1 = v1()
 const toDoListID_2 = v1()
 
+let elseParam = {
+    description: 'some string',
+    status: 5,
+    priority: 5,
+    startDate: 'some string',
+    deadline: 'some string',
+    todoListId: 'some string',
+    order: 5,
+    addedDate: 'some string'
+}
+
+
+
 const InitialReduser = {
     todolists: [
         {id: toDoListID_1, title: "What to learn", filter: 'all'},
@@ -18,14 +31,14 @@ const InitialReduser = {
     ],
     tasks: {
         [toDoListID_1]: [
-            {id: v1(), title: "HTML&CSS", completed: true},
-            {id: v1(), title: "JS", completed: true},
-            {id: v1(), title: "REACTJS", completed: false}
+            {id: "1", title: "CSS", completed: false, ...elseParam},
+            {id: "2", title: "JS", completed: true, ...elseParam},
+            {id: "3", title: "React", completed: false, ...elseParam}
         ],
         [toDoListID_2]: [
-            {id: v1(), title: "Milk", completed: true},
-            {id: v1(), title: "Beer", completed: true},
-            {id: v1(), title: "Water", completed: false}
+            {id: "1", title: "bread", completed: false, ...elseParam},
+            {id: "2", title: "milk", completed: true, ...elseParam},
+            {id: "3", title: "tea", completed: false, ...elseParam}
         ]
     }
 }
