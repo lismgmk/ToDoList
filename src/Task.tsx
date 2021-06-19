@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useCallback, useMemo, useState} from "react";
+import React, {ChangeEvent, KeyboardEvent, useCallback, useEffect, useMemo, useState} from "react";
 import AddItemForm from "./AddItemForm";
 import EditableSpan from "./EditableSpan";
 import {Button, Checkbox, IconButton} from "@material-ui/core";
@@ -9,7 +9,7 @@ import {
     addTaskAC,
     chahgeTaskStatusThunkAT, chahgeTaskTitleThunkAT,
     changeTaskStatusAC,
-    changeTaskTitleAC,
+    changeTaskTitleAC, fetchTasksThunkAT,
     removeTaskAC,
     removeTaskThunkAT
 } from "./state/taskReduser";
@@ -31,13 +31,17 @@ export type PropsType = {
 
 const Task = React.memo((props: PropsType ) => {
     console.log('add task')
-
+    useEffect(() => {
+            dispatch(fetchTasksThunkAT(props.idTask))
+        },
+        [])
     const dispatch = useDispatch();
 
     const chahgeStatus = useCallback((e: ChangeEvent<HTMLInputElement>) =>
-        dispatch(chahgeTaskStatusThunkAT(props.idTask, e.currentTarget.checked, props.idTodolist)) , [props.idTask, props.idTodolist]) ;
-
+        dispatch(chahgeTaskStatusThunkAT(props.idTask, e.currentTarget.checked, props.idTodolist)) , []) ;
+debugger
         return (
+
             <li key={props.idTask}>
 
                 <Checkbox

@@ -40,7 +40,6 @@ function AppWithRedux() {
 
     useEffect(() => {
             dispatch(fetchTodolistsThunkAT())
-            dispatch(fetchTasksThunkAT('07111a8a-4a62-4c9b-b94c-a4035c493bc6'))
 
         },
         [])
@@ -51,7 +50,7 @@ function AppWithRedux() {
         dispatch(addTodolistsThunkAT(toDoListTitle))
     }, [])
 
-    const todoListComponents = toDoLists.map((tl) =>{
+    const todoListComponents = toDoLists.map((tl) => {
 
         return (
             <Grid item key={tl.id}>
@@ -85,7 +84,7 @@ function AppWithRedux() {
                 <Grid container style={{padding: "20px 0px"}}>
 
 
-                    <AddItemForm  addItem={addToDoList}/>
+                    <AddItemForm addItem={addToDoList}/>
 
 
                 </Grid>
@@ -93,8 +92,7 @@ function AppWithRedux() {
                 <Grid container spacing={5}>
 
 
-                    { todoListComponents }
-
+                    {todoListComponents}
 
 
                 </Grid>

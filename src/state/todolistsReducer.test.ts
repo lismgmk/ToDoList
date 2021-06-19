@@ -39,7 +39,7 @@ test('correct todolist should be removed', () => {
 test('correct todolist should be add', () => {
 
 
-    const endState = toDoListReduser(startState, AddToDoListAT('New task', 'newId-1'))
+    const endState = toDoListReduser(startState, AddToDoListAT('New task'))
 
     expect(endState.length).toBe(3);
     expect(endState[2].title).toBe("New task");

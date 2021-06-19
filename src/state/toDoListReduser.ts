@@ -25,9 +25,7 @@ export const toDoListReduser = (toDoLists: Array<ToDoListType>=[], action: Actio
         case "REMOVE-TODOLIST":
             return toDoLists.filter(i => i.id !== action.toDoListID)
         case "ADD-TODOLIST":
-            return [...toDoLists, {
-                id: action.idToDoList, title: action.title, filter: 'all'
-            }]
+            return [...toDoLists, { ...action.toDoList, filter: 'all'}]
         case "CHANGE-TODOLIST-TITLE":
             return toDoLists.map(tl => tl.id === action.toDoListID ? {...tl, title: action.title} : tl)
         case "CHANGE-TODOLIST-FILTER":
@@ -40,8 +38,8 @@ export const toDoListReduser = (toDoLists: Array<ToDoListType>=[], action: Actio
 
 
 export const RemoveToDoListAT = (id: string) => ({type: "REMOVE-TODOLIST", toDoListID: id}) as const
-export const AddToDoListAT = (newTitle: string, idToDoList: string) => ({
-    type: "ADD-TODOLIST", title: newTitle, idToDoList}) as const
+export const AddToDoListAT = (toDoList: TodolistType) => ({
+    type: "ADD-TODOLIST", toDoList}) as const
 export const ChangeToDoListTitleAT = (newTitle: string, newId: string) => ({
         type: "CHANGE-TODOLIST-TITLE",
         title: newTitle,
@@ -72,7 +70,7 @@ export const deleteTodolistsThunkAT = (toDolistId: string) =>  (dispatch: Dispat
     }
 export const addTodolistsThunkAT = (newTitle: string) =>  (dispatch: Dispatch<ActionType>)=>{
         todolistAPI.postTodolist(newTitle)
-            .then(data => dispatch(AddToDoListAT(data.data.data.item.title, data.data.data.item.id))
+            .then(data => dispatch(AddToDoListAT(data.data.data.item))
             )
     }
 export const updateTodolistsThunkAT = (newTitle: string, toDoListId: string) =>  (dispatch: Dispatch<ActionType>)=>{

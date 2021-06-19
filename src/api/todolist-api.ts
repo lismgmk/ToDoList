@@ -4,7 +4,7 @@ const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     withCredentials: true,
     headers: {
-        'API-KEY': '130e55a7-1658-4493-bd1f-1a1feb3ad2f9'
+        'API-KEY': 'bb0313ce-6823-4130-8ef9-353cdbf90c88'
     }
 })
 
@@ -81,7 +81,9 @@ export const todolistAPI = {
         return instance.get<ActionTaskType>(`/todo-lists/${todolistId}/tasks`)
     },
     postTasks(todolistId: string, title: string) {
+        debugger
         const promise = instance.post<TasksPostTypeResp<{item : TasksType}>>(`/todo-lists/${todolistId}/tasks`, {title: title})
+        debugger
         return promise
     },
 
