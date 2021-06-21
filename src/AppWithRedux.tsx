@@ -9,12 +9,18 @@ import {AppRootStateType} from "./store";
 import {
     AddToDoListAT, addTodolistsThunkAT,
     ChangeToDoListFilterAT,
-    ChangeToDoListTitleAT, fetchTodolistsThunkAT,
+    ChangeToDoListTitleAT, deleteTodolistsThunkAT, fetchTodolistsThunkAT,
     GetToDoListsAT,
-    RemoveToDoListAT,
+    RemoveToDoListAT, updateTodolistsThunkAT,
 } from "./state/toDoListReduser";
-import {TasksType, todolistAPI, TodolistType} from "./api/todolist-api";
-import {fetchTasksThunkAT} from "./state/taskReduser";
+import {TaskStatuses, TasksType, todolistAPI, TodolistType, UpdateTaskRequestType} from "./api/todolist-api";
+import {
+    addTaskThunkAT,
+    chahgeTaskStatusThunkAT,
+    chahgeTaskTitleThunkAT,
+    fetchTasksThunkAT,
+    removeTaskThunkAT, updateTaskThunkAT
+} from "./state/taskReduser";
 //
 // export type tasksType = {
 //     id: string
@@ -40,26 +46,73 @@ function AppWithRedux() {
 
     useEffect(() => {
             dispatch(fetchTodolistsThunkAT())
-
-        },
+                },
         [])
 
     const toDoLists = useSelector<AppRootStateType, Array<ToDoListType>>(state => state.todolists);
+    let task = useSelector<AppRootStateType, TasksStateType>(state => state.tasks);
     const dispatch = useDispatch();
+
+
     const addToDoList = useCallback((toDoListTitle: string) => {
         dispatch(addTodolistsThunkAT(toDoListTitle))
-    }, [])
+    }, [dispatch])
 
-    const todoListComponents = toDoLists.map((tl) => {
+    const changeTitleTodoList = useCallback((title: string, toDoListId: string) =>
+        dispatch(updateTodolistsThunkAT(title, toDoListId)) ,[])
 
+    const deleteToDoList = useCallback((toDoListId: string)=>{
+        dispatch(deleteTodolistsThunkAT(toDoListId))
+    },[])
+
+    const setFilterValue = useCallback((filter: FilterValuesType, toDoListId: string) => {
+        dispatch(ChangeToDoListFilterAT(filter, toDoListId))
+    } ,[])
+
+
+
+    const addTask = useCallback(
+        (title: string, toDoListId: string) =>
+            dispatch(addTaskThunkAT( toDoListId, title))
+        , [])
+
+    const chahgeTaskTitle = useCallback(( toDoListId: string, taskId: string, newTitle : string) =>
+        dispatch(updateTaskThunkAT(toDoListId, taskId, {title: newTitle})) , []) ;
+
+    const chahgeTaskStatus = useCallback((toDoListId: string, taskId: string, status : TaskStatuses) =>
+        dispatch(updateTaskThunkAT(toDoListId, taskId, {status})) , [])
+
+    const removeTask = useCallback(
+        (toDoListId: string, taskId: string) =>
+            dispatch(removeTaskThunkAT( toDoListId, taskId))
+        , [])
+
+
+
+
+
+
+
+
+    const todoListComponents = toDoLists.map((tl) =>{
+        let allToDoListTasks = task[tl.id]
         return (
             <Grid item key={tl.id}>
                 <Paper key={tl.id} elevation={6} style={{padding: '20px'}}>
                     <TodoList
-                        key={tl.id}
-                        id={tl.id}
-                        title={tl.title}
-                        filter={tl.filter}
+                        key = {tl.id}
+                        id = {tl.id}
+                        title = {tl.title}
+                        filter = {tl.filter}
+                        allTask = {allToDoListTasks}
+                        setFilter = {setFilterValue}
+                        changeTitleTodoList = {changeTitleTodoList}
+                        addTask = {addTask}
+                        deleteToDoList = {deleteToDoList}
+                        removeTask = {removeTask}
+                        chahgeTaskTitle = {chahgeTaskTitle}
+                        chahgeTaskStatus = {chahgeTaskStatus}
+
                     />
                 </Paper>
             </Grid>
@@ -84,7 +137,7 @@ function AppWithRedux() {
                 <Grid container style={{padding: "20px 0px"}}>
 
 
-                    <AddItemForm addItem={addToDoList}/>
+                    <AddItemForm  addItem={addToDoList}/>
 
 
                 </Grid>
@@ -92,7 +145,8 @@ function AppWithRedux() {
                 <Grid container spacing={5}>
 
 
-                    {todoListComponents}
+                    { todoListComponents }
+
 
 
                 </Grid>

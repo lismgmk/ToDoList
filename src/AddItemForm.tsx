@@ -15,7 +15,7 @@ const AddItemForm = React.memo(function (props: addItemFormType){
     const [error, setError] = useState<string|null>(null)
     const [title, setTitle] = useState<string>('')
 
-    const dispatch = useDispatch();
+
 
     const errorMessage = error ? <div>{error}</div> : null
     const changeTitle = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +24,6 @@ const AddItemForm = React.memo(function (props: addItemFormType){
     },[title, error] )
 
     const addItem = useCallback (() => {
-        // error && setError(null)
         const trimmedTitle = title.trim()
         if(trimmedTitle){
             props.addItem(trimmedTitle)
