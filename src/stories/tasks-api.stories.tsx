@@ -8,12 +8,12 @@ export default {
 
 export const GetTasks = () => {
     const [state, setState] = useState<any>(null)
-    const todolistId = '58eb4fa7-86ae-4b56-89c9-8cd47c5ebf67';
+    const todolistId = '65ab328d-5253-4b7e-a075-ac55334e2d97';
     useEffect(() => {
         todolistAPI.getTasks(todolistId)
             .then((res) => {
 
-                setState(res.data);
+                setState(res.data.items);
             })
             }, [])
 
@@ -22,7 +22,7 @@ export const GetTasks = () => {
 
 export const PostTask = () => {
     const [state, setState] = useState<any>(null)
-    const todolistId = '07111a8a-4a62-4c9b-b94c-a4035c493bc6';
+    const todolistId = '84d1e3fa-ec9d-4dc6-bbad-e9837bd894b4';
     const title = "else posts!!"
     useEffect(() => {
         todolistAPI.postTasks(todolistId, title)
@@ -37,19 +37,13 @@ export const PostTask = () => {
 export const UpdateTask = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        const todolistId = '07111a8a-4a62-4c9b-b94c-a4035c493bc6'
-        const taskId = '5b7611df-78e0-4e34-a43f-bb2ff202ce4b'
+        const todolistId = '84d1e3fa-ec9d-4dc6-bbad-e9837bd894b4'
+        const taskId = '9bcbabe5-9859-4dde-93ba-1332a52a5547'
 
 
         const request = {
-            title: 'New',
-            description: 'study',
-            completed: false,
-            status: 1,
-            priority: 1,
-            startDate: '01/01/2019',
-            deadline: '01/09/2021'
-        };
+            title: 'New'
+        }
 
         todolistAPI.updateTasks(todolistId, request, taskId)
             .then((res) => {

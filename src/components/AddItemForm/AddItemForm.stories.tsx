@@ -4,8 +4,8 @@ import { action } from '@storybook/addon-actions';
 
 
 
-import AddItemForm, {addItemFormType} from '../AddItemForm';
-import {ReduxStoreProvideDecoranor} from "./ReduxStoreProvideDecoranor";
+import AddItemForm, {addItemFormType} from './AddItemForm';
+import {ReduxStoreProvideDecoranor} from "../../stories/ReduxStoreProvideDecoranor";
 
 export default {
   title: 'Example/AddItemForm',
