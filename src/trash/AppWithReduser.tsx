@@ -23,8 +23,8 @@ function AppWithReduser() {
     const toDoListID_2 = v1()
 
     let [toDoLists, dispatchToToDoList] = useReducer(toDoListReduser, [
-        {id: toDoListID_1, title: "What to learn", filter: 'all', addedDate: '', order: 0},
-        {id: toDoListID_2, title: "What to bye", filter: 'all', addedDate: '', order: 0}
+        {id: toDoListID_1, title: "What to learn", filter: 'all', addedDate: '', order: 0, entityStatys: "idle"},
+        {id: toDoListID_2, title: "What to bye", filter: 'all', addedDate: '', order: 0, entityStatys: "idle"}
     ])
     let [tasks, dispatchToTask] = useReducer(taskReduser, {
         [toDoListID_1]: [
@@ -38,7 +38,8 @@ function AppWithReduser() {
                 todoListId: toDoListID_1,
                 order: 1,
                 addedDate: '',
-                startDate: ''
+                startDate: '',
+                entityTaskStatus: 'idle'
             },
             {
                 id: v1(), title: "JS",
@@ -50,7 +51,8 @@ function AppWithReduser() {
                 todoListId: toDoListID_1,
                 order: 1,
                 addedDate: '',
-                startDate: ''
+                startDate: '',
+                entityTaskStatus: 'idle'
             },
             {
                 id: v1(), title: "REACTJS",
@@ -62,7 +64,8 @@ function AppWithReduser() {
                 todoListId: toDoListID_1,
                 order: 1,
                 addedDate: '',
-                startDate: ''
+                startDate: '',
+                entityTaskStatus: 'idle'
             }
         ],
         [toDoListID_2]: [
@@ -76,7 +79,8 @@ function AppWithReduser() {
                 todoListId: toDoListID_2,
                 order: 1,
                 addedDate: '',
-                startDate: ''
+                startDate: '',
+                entityTaskStatus: 'idle'
             },
             {
                 id: v1(), title: "Beer",
@@ -88,7 +92,8 @@ function AppWithReduser() {
                 todoListId: toDoListID_2,
                 order: 1,
                 addedDate: '',
-                startDate: ''
+                startDate: '',
+                entityTaskStatus: 'idle'
             },
             {
                 id: v1(), title: "Water",
@@ -100,7 +105,8 @@ function AppWithReduser() {
                 todoListId: toDoListID_2,
                 order: 1,
                 addedDate: '',
-                startDate: ''
+                startDate: '',
+                entityTaskStatus: 'idle'
             }
         ]
     })
@@ -158,6 +164,7 @@ function AppWithReduser() {
             <Grid item key={tl.id}>
                 <Paper elevation={6} style={{padding: '20px'}}>
                     <TodoList
+                        entityStatys={tl.entityStatys}
                         deleteToDoList={removeToDoList}
                         key={tl.id}
                         id={tl.id}

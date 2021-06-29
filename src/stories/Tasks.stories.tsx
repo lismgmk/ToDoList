@@ -1,7 +1,7 @@
 import React from 'react';
 import { Story, Meta } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
-import Task, {TasksPropsType} from '../features/todoListsList/todoList/task/Task';
+import Task from '../features/todoListsList/todoList/task/Task';
 import {v1} from "uuid";
 import {ReduxStoreProvideDecoranor} from "./ReduxStoreProvideDecoranor";
 import {TaskPriorities, TaskStatuses} from "../api/todolist-api";
@@ -30,7 +30,8 @@ export const TaskBaseExample = (props: any) => {
             todoListId: '1',
             order: 1,
             addedDate: '',
-            startDate: ''
+            startDate: '',
+              entityTaskStatus: 'succeeded'
           }}
           chahgeTaskStatus={action('change status')}
           chahgeTaskTitle={action('change status')}
@@ -47,7 +48,8 @@ export const TaskBaseExample = (props: any) => {
             todoListId: '2',
             order: 1,
             addedDate: '',
-            startDate: ''
+            startDate: '',
+              entityTaskStatus: 'succeeded'
           }}
           chahgeTaskStatus={action('change status')}
           chahgeTaskTitle={action('change status')}
@@ -56,42 +58,3 @@ export const TaskBaseExample = (props: any) => {
       </>
   )
 }
-
-// const Template: Story<TasksPropsType> = (args) => <Task {...args} />;
-//
-// export const TaskExampleCompleted = Template.bind({});
-// TaskExampleCompleted.args = {
-//   idTodolist: '1',
-//   task: {id: v1(), title: "Milk",
-//     description: '',
-//     completed: true,
-//     status: TaskStatuses.Completed,
-//     priority: TaskPriorities.Hi,
-//     deadline: '',
-//     todoListId: '1',
-//     order: 1,
-//     addedDate: '',
-//     startDate: ''
-//   },
-//   chahgeTaskStatus: action('change status'),
-//   chahgeTaskTitle: action('change status'),
-//   removeTask: action('change status'),
-// }
-// export const TaskExampleNew = Template.bind({});
-// TaskExampleNew.args = {
-//   idTodolist: '2',
-//   task: {id: v1(), title: "Beer",
-//     description: '',
-//     completed: true,
-//     status: TaskStatuses.New,
-//     priority: TaskPriorities.Hi,
-//     deadline: '',
-//     todoListId: '2',
-//     order: 1,
-//     addedDate: '',
-//     startDate: ''
-//   },
-//   chahgeTaskStatus: action('change status'),
-//   chahgeTaskTitle: action('change status'),
-//   removeTask: action('change status'),
-// }

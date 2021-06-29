@@ -42,7 +42,7 @@ export type  TasksType = {
     addedDate: string
     startDate: string
 }
-type TasksPostTypeResp <D = {}>= {
+export type TasksPostTypeResp <D = {}>= {
     resultCode: number
     messages: string[]
     data: D
@@ -99,7 +99,6 @@ export const todolistAPI = {
 
     updateTasks(todolistId: string, request: UpdateTaskModelType, taskId: string) {
         return instance.put<TasksPostTypeResp<TasksType>>(`/todo-lists/${todolistId}/tasks/${taskId}`, request).then(res => {
-                debugger
                 console.log(res)
                 return res
             })

@@ -7,7 +7,7 @@ import {AppBar, Button, Container, Grid, IconButton, Paper, Toolbar, Typography}
 import {Menu} from "@material-ui/icons";
 import {TaskPriorities, TaskStatuses, TasksType} from "../api/todolist-api";
 import {ToDoListDomainType} from "../features/todoListsList/TodoListsList";
-import {TasksStateType} from "../features/todoListsList/taskReduser";
+import {TasksDomainType, TasksStateType} from "../features/todoListsList/taskReduser";
 
 
 function App() {
@@ -17,8 +17,8 @@ function App() {
     const toDoListID_2 = v1()
 
     const [ toDoLists, setToDoLists] = useState<Array<ToDoListDomainType>>([
-        {id: toDoListID_1, title: "What to learn", filter: 'all', addedDate: '', order: 0},
-        {id: toDoListID_2, title: "What to bye", filter: 'all', addedDate: '', order: 0}
+        {id: toDoListID_1, title: "What to learn", filter: 'all', addedDate: '', order: 0, entityStatys: "idle"},
+        {id: toDoListID_2, title: "What to bye", filter: 'all', addedDate: '', order: 0, entityStatys: "idle"}
     ])
 
     const [tasks, setTasks] = useState<TasksStateType>({
@@ -32,7 +32,9 @@ function App() {
                 todoListId: toDoListID_1,
                 order: 1,
                 addedDate: '',
-                startDate: ''},
+                startDate: '',
+                entityTaskStatus: 'idle'
+            },
             {id: v1(), title: "JS",
                 description: '',
                 completed: true,
@@ -42,7 +44,9 @@ function App() {
                 todoListId: toDoListID_1,
                 order: 1,
                 addedDate: '',
-                startDate: ''},
+                startDate: '',
+                entityTaskStatus: 'idle'
+            },
             {id: v1(), title: "REACTJS",
                 description: '',
                 completed: true,
@@ -52,7 +56,8 @@ function App() {
                 todoListId: toDoListID_1,
                 order: 1,
                 addedDate: '',
-                startDate: ''}
+                startDate: '',
+                entityTaskStatus: 'idle'}
         ],
         [toDoListID_2]: [
             {id: v1(), title: "Milk",
@@ -64,7 +69,8 @@ function App() {
                 todoListId: toDoListID_2,
                 order: 1,
                 addedDate: '',
-                startDate: ''
+                startDate: '',
+                entityTaskStatus: 'idle'
             },
             {id: v1(), title: "Beer",
              description: '',
@@ -75,7 +81,8 @@ function App() {
                 todoListId: toDoListID_2,
                 order: 1,
                 addedDate: '',
-                startDate: ''
+                startDate: '',
+                entityTaskStatus: 'idle'
             },
             {id: v1(), title: "Water",
              description: '',
@@ -86,7 +93,8 @@ function App() {
                 todoListId: toDoListID_2,
                 order: 1,
                 addedDate: '',
-                startDate: ''
+                startDate: '',
+                entityTaskStatus: 'idle'
             }
         ]
     })
@@ -119,7 +127,7 @@ function App() {
         })
     }
     function addTask(title: string, toDoListID: string) {
-        const newTasks = {
+        const newTasks : TasksDomainType = {
             id: v1(),
             title,
             description: '',
@@ -130,11 +138,13 @@ function App() {
             todoListId: toDoListID_2,
             order: 1,
             addedDate: '',
-            startDate: ''
+            startDate: '',
+            entityTaskStatus: 'idle'
         }
 
-        const upDatedTasks = [newTasks, ...tasks[toDoListID]]
-        setTasks({...tasks, [toDoListID]: upDatedTasks})
+        setTasks({...tasks,
+            [toDoListID]: [newTasks, ...tasks[toDoListID]]
+        })
     }
 
     function removeToDoList (toDoListID: string) {
@@ -150,7 +160,7 @@ function App() {
     function addToDoList (title: string) {
         const newToDoListId = v1()
         const newToDoList: ToDoListDomainType = {
-            id: newToDoListId, title, filter: 'all', addedDate: '', order: 0
+            id: newToDoListId, title, filter: 'all', addedDate: '', order: 0, entityStatys: "idle"
         }
         setToDoLists([...toDoLists, newToDoList])
         setTasks({...tasks, [newToDoListId]: []})
@@ -179,6 +189,7 @@ function App() {
             <Grid item key={tl.id}>
                 <Paper elevation={6} style={{padding: '20px'}}>
                     <TodoList
+                        entityStatys={tl.entityStatys}
                         key={tl.id}
                         id={tl.id}
                         title={tl.title}

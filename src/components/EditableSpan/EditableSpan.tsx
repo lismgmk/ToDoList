@@ -1,10 +1,12 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from "react";
 import {TextField} from "@material-ui/core";
+import {RequestStatusType} from "../../app/app-reduser";
 
 
 type EditableSpanType = {
     title: string
     changeTitle: (title: string) => void
+    entityTaskStatus?: RequestStatusType
 }
 
 const EditableSpan = React.memo(function (props: EditableSpanType){
@@ -15,7 +17,7 @@ const EditableSpan = React.memo(function (props: EditableSpanType){
 
     const [title, setTitle] = useState<string>(props.title)
     const [editMode, setEditMode] = useState<boolean>(false)
-    const onEditMode = () => setEditMode(true)
+    const onEditMode = () => props.entityTaskStatus !== 'loading' && setEditMode(true)
 
     const changeTitle = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.currentTarget.value)
@@ -43,7 +45,7 @@ const EditableSpan = React.memo(function (props: EditableSpanType){
                 onBlur={offEditMode}
                 onChange={changeTitle}
             />
-            : <span onDoubleClick={onEditMode}>{props.title}</span>
+            : <span aria-disabled={props.entityTaskStatus === 'loading'} onDoubleClick={onEditMode}>{props.title}</span>
     )
 })
 

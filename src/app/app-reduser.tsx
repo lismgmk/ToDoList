@@ -5,7 +5,7 @@ import {todolistAPI} from "../api/todolist-api";
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
 export const initialState = {
-    status: 'loading' as RequestStatusType,
+    status: 'idle' as RequestStatusType,
     error: null as string | null
 }
 

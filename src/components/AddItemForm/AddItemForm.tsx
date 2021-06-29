@@ -6,6 +6,7 @@ import {useDispatch} from "react-redux";
 
 export type addItemFormType = {
     addItem: (title : string) => void
+    disabled?: boolean
 }
 
 
@@ -52,10 +53,11 @@ const AddItemForm = React.memo(function (props: addItemFormType){
                 label={'Title'}
                 error = {!!error}
                 helperText={error}
+                disabled={props.disabled}
             />
 
 
-            <IconButton onClick = {addItem} color={'primary'}>
+            <IconButton onClick = {addItem} color={'primary'} disabled={props.disabled}>
                 <AddBox/>
             </IconButton>
             {/*{errorMessage}*/}

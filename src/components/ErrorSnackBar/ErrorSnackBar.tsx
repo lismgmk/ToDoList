@@ -10,6 +10,7 @@ function Alert(props: AlertProps) {
 }
 
 export function ErrorSnackbar() {
+
     // const [open, setOpen] = React.useState(true)
     const dispatch = useDispatch();
     const progresLoad = useSelector<AppRootStateType, InitialStateType>(state => state.app)
@@ -24,7 +25,7 @@ export function ErrorSnackbar() {
     return (
         <Snackbar open={progresLoad.error !== null} autoHideDuration={6000} onClose={handleClose}>
             <Alert onClose={handleClose} severity="error">
-               ERROR!
+                {progresLoad.error}
             </Alert>
         </Snackbar>
     )

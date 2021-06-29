@@ -1,10 +1,12 @@
 import {Provider} from "react-redux";
 import React from 'react';
-import {combineReducers, createStore} from 'redux';
+import {applyMiddleware, combineReducers, createStore} from 'redux';
 import {taskReduser} from "../features/todoListsList/taskReduser";
 import {toDoListReduser} from "../features/todoListsList/toDoListReduser";
 import {v1} from "uuid";
 import {TaskPriorities, TaskStatuses} from "../api/todolist-api";
+import {appReducer} from "../app/app-reduser";
+import thunk from "redux-thunk";
 
 const toDoListID_1 = v1()
 const toDoListID_2 = v1()
@@ -90,10 +92,11 @@ const InitialReduser = {
 
 const rootReducer = combineReducers({
     tasks: taskReduser,
-    todolists: toDoListReduser
+    todolists: toDoListReduser,
+    app: appReducer
 })
 
-export const storeStory = createStore(rootReducer, InitialReduser as AppRootStateType);
+export const storeStory = createStore(rootReducer, InitialReduser as AppRootStateType, applyMiddleware(thunk));
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
 

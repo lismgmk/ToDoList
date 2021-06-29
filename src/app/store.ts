@@ -1,4 +1,3 @@
-
 import {applyMiddleware, combineReducers, createStore} from 'redux';
 import {taskReduser} from "../features/todoListsList/taskReduser";
 import {toDoListReduser} from "../features/todoListsList/toDoListReduser";

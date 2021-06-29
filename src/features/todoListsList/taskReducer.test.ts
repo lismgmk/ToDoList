@@ -22,7 +22,8 @@ beforeEach(()=>{
                 todoListId: toDoListID_1,
                 order: 1,
                 addedDate: '',
-                startDate: ''},
+                startDate: '',
+            entityTaskStatus: 'idle'},
             {id: '2', title: "JS",
                 description: '',
                 completed: true,
@@ -32,7 +33,8 @@ beforeEach(()=>{
                 todoListId: toDoListID_1,
                 order: 1,
                 addedDate: '',
-                startDate: ''},
+                startDate: '',
+            entityTaskStatus: 'idle'},
             {id: '3', title: "REACTJS",
                 description: '',
                 completed: true,
@@ -42,7 +44,8 @@ beforeEach(()=>{
                 todoListId: toDoListID_1,
                 order: 1,
                 addedDate: '',
-                startDate: ''}
+                startDate: '',
+            entityTaskStatus: 'idle'}
         ],
         [toDoListID_2]: [
             {id: '1', title: "Milk",
@@ -54,7 +57,8 @@ beforeEach(()=>{
                 todoListId: toDoListID_2,
                 order: 1,
                 addedDate: '',
-                startDate: ''
+                startDate: '',
+                entityTaskStatus: 'idle'
             },
             {id: '2', title: "Beer",
                 description: '',
@@ -65,7 +69,8 @@ beforeEach(()=>{
                 todoListId: toDoListID_2,
                 order: 1,
                 addedDate: '',
-                startDate: ''
+                startDate: '',
+                entityTaskStatus: 'idle'
             },
             {id: '3', title: "Water",
                 description: '',
@@ -76,7 +81,8 @@ beforeEach(()=>{
                 todoListId: toDoListID_2,
                 order: 1,
                 addedDate: '',
-                startDate: ''
+                startDate: '',
+                entityTaskStatus: 'idle'
             }
         ]
     }
@@ -100,7 +106,8 @@ test('correct task should be deleted from correct array', () => {
                 todoListId: toDoListID_1,
                 order: 1,
                 addedDate: '',
-                startDate: ''},
+                startDate: '',
+            entityTaskStatus: 'idle'},
             {id: '2', title: "JS",
                 description: '',
                 completed: true,
@@ -110,7 +117,8 @@ test('correct task should be deleted from correct array', () => {
                 todoListId: toDoListID_1,
                 order: 1,
                 addedDate: '',
-                startDate: ''},
+                startDate: '',
+            entityTaskStatus: 'idle'},
             {id: '3', title: "REACTJS",
                 description: '',
                 completed: true,
@@ -120,7 +128,8 @@ test('correct task should be deleted from correct array', () => {
                 todoListId: toDoListID_1,
                 order: 1,
                 addedDate: '',
-                startDate: ''}
+                startDate: '',
+            entityTaskStatus: 'idle'}
         ],
         [toDoListID_2]: [
             {id: '1', title: "Milk",
@@ -132,7 +141,8 @@ test('correct task should be deleted from correct array', () => {
                 todoListId: toDoListID_2,
                 order: 1,
                 addedDate: '',
-                startDate: ''
+                startDate: '',
+                entityTaskStatus: 'idle'
             },
             {id: '3', title: "Water",
                 description: '',
@@ -143,7 +153,8 @@ test('correct task should be deleted from correct array', () => {
                 todoListId: toDoListID_2,
                 order: 1,
                 addedDate: '',
-                startDate: ''
+                startDate: '',
+                entityTaskStatus: 'idle'
             }
         ]
     });
@@ -164,7 +175,8 @@ test('correct task should be added to correct array', () => {
         todoListId: toDoListID_2,
         order: 1,
         addedDate: '',
-        startDate: ''
+        startDate: '',
+        entityTaskStatus: 'idle'
     }
 
     const action = addTaskAC(task);
