@@ -9,6 +9,7 @@ import {
     setAppStatusAC,
     setAppStatusACType
 } from "../../app/app-reduser";
+import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 
 
 export type RemoveToDoListTypeAT = ReturnType<typeof RemoveToDoListAT>
@@ -26,7 +27,7 @@ type ActionType =
     | setAppErrorACType
 
 
-export const toDoListReduser = (toDoLists: Array<ToDoListDomainType> = [], action: ActionType): Array<ToDoListDomainType> => {
+export const toDoListReduser = (toDoLists: Array<ToDoListDomainType> = [], action: ActionType ): Array<ToDoListDomainType> => {
     switch (action.type) {
         case "GET-TODOLISTS":
             return action.ApiToDoLists.map((tl) => {
@@ -74,6 +75,7 @@ export const changeTodolistEntityStatusAC = (entityStatys: RequestStatusType, id
 
 
 export const fetchTodolistsThunkAT = () => (dispatch: Dispatch<ActionType>) => {
+
     dispatch(setAppStatusAC('loading'))
     todolistAPI.getTodolist()
         .then(data => {
@@ -92,8 +94,11 @@ export const deleteTodolistsThunkAT = (toDolistId: string) => (dispatch: Dispatc
                 dispatch(setAppStatusAC('succeeded'))
             }
         )
+        .catch((error) => {
+        handleServerNetworkError(error.message, dispatch)
+    })
 }
-export const addTodolistsThunkAT = (newTitle: string) => (dispatch: Dispatch<ActionType>) => {
+export const addTodolistsThunkAT = (newTitle: string) => (dispatch: Dispatch<ActionType>  ) => {
     debugger
     dispatch(setAppStatusAC('loading'))
     todolistAPI.postTodolist(newTitle)
@@ -102,16 +107,15 @@ export const addTodolistsThunkAT = (newTitle: string) => (dispatch: Dispatch<Act
                 if (data.data.resultCode === 0) {
                     dispatch(AddToDoListAT(data.data.data.item.title, data.data.data.item.id))
                     dispatch(setAppStatusAC('succeeded'))
-                } else {
-                    if (data.data.messages.length) {
-                        dispatch(setAppErrorAC(data.data.messages[0]))
-                    } else {
-                        dispatch(setAppErrorAC('Some error occured'))
-                    }
-                    dispatch(setAppStatusAC('failed'))
+                }
+                else {
+                    handleServerAppError(data.data, dispatch)
                 }
             }
         )
+        .catch((error) => {
+            handleServerNetworkError(error.message, dispatch)
+        })
 }
 export const updateTodolistsThunkAT = (newTitle: string, toDoListId: string) => (dispatch: Dispatch<ActionType>) => {
     dispatch(setAppStatusAC('loading'))

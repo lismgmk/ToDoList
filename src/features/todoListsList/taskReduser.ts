@@ -111,19 +111,10 @@ export const addTaskThunkAT = (toDoListId: string, title: string) => (dispatch: 
                     dispatch(setAppStatusAC('succeeded'))
                 } else {
                     handleServerAppError(data.data, dispatch)
-                    // if (data.data.messages.length) {
-                    //     dispatch(setAppErrorAC(data.data.messages[0]))
-                    // } else {
-                    //     dispatch(setAppErrorAC('Some error occured'))
-                    // }
-                    // dispatch(setAppStatusAC('failed'))
                 }
-
             }
         )
         .catch((error) => {
-            // dispatch(setAppErrorAC(error.message))
-            // dispatch(setAppStatusAC('failed'))
             handleServerNetworkError(error.message, dispatch)
         })
 }

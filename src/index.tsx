@@ -8,14 +8,16 @@ import {Provider} from "react-redux";
 import {store} from "./app/store";
 import App from "./trash/App";
 import AppWithReduser from "./trash/AppWithReduser";
+import {BrowserRouter} from "react-router-dom";
 
 ReactDOM.render(
-    <Provider store={store}>
-        <AppWithRedux/>
-        {/* <AppWithReduser/>*/}
-        {/*<App/>*/}
-    </Provider>
-
+    <BrowserRouter>
+        <Provider store={store}>
+            <AppWithRedux/>
+            {/* <AppWithReduser/>*/}
+            {/*<App/>*/}
+        </Provider>
+    </BrowserRouter>
 
     , document.getElementById('root'));
 

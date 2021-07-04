@@ -1,5 +1,7 @@
 import axios from 'axios'
 import {UpdateTaskModelType} from "../features/todoListsList/taskReduser";
+import {modelLoginStateType} from "../features/login/loginReduser";
+import {number} from "yup";
 
 const instance = axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
@@ -16,11 +18,17 @@ export type TodolistType= {
     title: string
 }
 
-type ActionToDoListType<D> = {
+// type ActionToDoListType<D> = {
+//     resultCode: number
+//     fieldsErrors: Array<string>
+//     messages: Array<string>
+//     data: D
+// }
+export type TasksPostTypeResp <D = {}>= {
     resultCode: number
-    fieldsErrors: Array<string>
-    messages: Array<string>
+    messages: string[]
     data: D
+    fieldsErrors: []
 }
 
 export type ActionTaskType = {
@@ -42,12 +50,7 @@ export type  TasksType = {
     addedDate: string
     startDate: string
 }
-export type TasksPostTypeResp <D = {}>= {
-    resultCode: number
-    messages: string[]
-    data: D
-    fieldsErrors: []
-}
+
 
 export type UpdateTaskRequestType = {
     title: string
@@ -78,14 +81,14 @@ export const todolistAPI = {
         return instance.get<Array<TodolistType>>(`todo-lists`)
     },
     postTodolist( title: string) {
-        const promise = instance.post<ActionToDoListType<{ item: TodolistType }>>(`todo-lists`, {title: title})
+        const promise = instance.post<TasksPostTypeResp<{ item: TodolistType }>>(`todo-lists`, {title: title})
         return promise
     },
     updateTodolist(todolistId: string, title: string) {
-        return instance.put<ActionToDoListType<{}>>(`todo-lists/${todolistId}`, {title: title})
+        return instance.put<TasksPostTypeResp<{}>>(`todo-lists/${todolistId}`, {title: title})
     },
     deleteTodolist(todolistId: string) {
-        const promise = instance.delete<ActionToDoListType<{}>>(`todo-lists/${todolistId}`)
+        const promise = instance.delete<TasksPostTypeResp<{}>>(`todo-lists/${todolistId}`)
         return promise
     },
 
@@ -106,6 +109,9 @@ export const todolistAPI = {
     deleteTasks(todolistId: string, taskId: string) {
         const promise = instance.delete<TasksPostTypeResp>(`/todo-lists/${todolistId}/tasks/${taskId}`)
         return promise
+    },
+    fetchForm(model: modelLoginStateType) {
+        return instance.post<TasksPostTypeResp<{userId: number}>>(`/auth/login`, model)
     }
 }
 

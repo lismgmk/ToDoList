@@ -35,6 +35,7 @@ const TodoList = React.memo((props: PropsType) => {
 
     const dispatch = useDispatch();
     useEffect(() => {
+        debugger
         dispatch(fetchTasksThunkAT(props.id))
     }, [])
 
