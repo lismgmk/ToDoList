@@ -10,7 +10,13 @@ import {
     RemoveToDoListAT,
     toDoListReduser
 } from "../features/todoListsList/toDoListReduser";
-import {addTaskAC, removeTaskAC, taskReduser, TasksStateType, updateTaskAC} from "../features/todoListsList/taskReduser";
+import {
+    addTaskAC,
+    removeTaskAC,
+    taskReduser,
+    TasksStateType,
+    updateTaskAC
+} from "../features/todoListsList/taskReduser";
 import {TaskPriorities, TaskStatuses, TasksType} from "../api/todolist-api";
 import TodoList, {FilterValuesType} from "../features/todoListsList/todoList/TodoList";
 import AddItemForm from "../components/AddItemForm/AddItemForm";
@@ -112,50 +118,53 @@ function AppWithReduser() {
     })
 
     function changeTaskStatus(taskID: string, toDoListID: string) {
-        dispatchToTask(updateTaskAC(toDoListID, taskID, {status: TaskStatuses.Completed}))
+        dispatchToTask(updateTaskAC({toDoListId: toDoListID, taskId: taskID, model: {status: TaskStatuses.Completed}}))
     }
 
     function changeTaskTitle(taskID: string, toDoListID: string) {
-        dispatchToTask(updateTaskAC(toDoListID, taskID, {title: 'Job'}))
+        dispatchToTask(updateTaskAC({toDoListId: toDoListID, taskId: taskID, model: {title: 'Job'}}))
     }
 
     function removeTask(taskId: string, toDoListID: string) {
-        dispatchToTask(removeTaskAC(toDoListID, taskId))
+        dispatchToTask(removeTaskAC({todolostId: toDoListID, taskId: taskId}))
     }
 
     function addTask(title: string, toDoListId: string) {
         dispatchToTask(addTaskAC({
-            id: v1(),
-            title: title,
-            description: '',
-            completed: true,
-            status: TaskStatuses.New,
-            priority: TaskPriorities.Hi,
-            deadline: '',
-            todoListId: toDoListId,
-            order: 1,
-            addedDate: '',
-            startDate: ''
-        }))
+                task: {
+                    id: v1(),
+                    title: title,
+                    description: '',
+                    completed: true,
+                    status: TaskStatuses.New,
+                    priority: TaskPriorities.Hi,
+                    deadline: '',
+                    todoListId: toDoListId,
+                    order: 1,
+                    addedDate: '',
+                    startDate: ''
+                }
+            })
+        )
     }
 
     function removeToDoList(toDoListID: string) {
-        dispatchToToDoList(RemoveToDoListAT(toDoListID))
+        dispatchToToDoList(RemoveToDoListAT({toDoListID: toDoListID}))
         delete tasks[toDoListID]
     }
 
     function changeToDoListFilter(newFiltervalue: FilterValuesType, toDoListID: string) {
-        dispatchToToDoList(ChangeToDoListFilterAT(newFiltervalue, toDoListID))
+        dispatchToToDoList(ChangeToDoListFilterAT({newFiltervalue: newFiltervalue, toDoListID: toDoListID}))
     }
 
     function addToDoList(title: string) {
-        const action = AddToDoListAT(title, v1())
+        const action = AddToDoListAT({title: title, idToDoList: v1()})
         dispatchToToDoList(action)
         dispatchToTask(action)
     }
 
     function changeToDoListTitle(title: string, toDoListID: string) {
-        dispatchToToDoList(ChangeToDoListTitleAT(title, toDoListID))
+        dispatchToToDoList(ChangeToDoListTitleAT({title: title, toDoListID: toDoListID}))
     }
 
 

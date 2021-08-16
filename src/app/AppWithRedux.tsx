@@ -17,7 +17,7 @@ import {useDispatch, useSelector} from "react-redux";
 import {AppRootStateType} from "./store";
 import {InitialStateType, RequestStatusType} from "./app-reduser";
 import {ErrorSnackbar} from "../components/ErrorSnackBar/ErrorSnackBar";
-import {Route} from 'react-router-dom';
+import {Redirect, Route, Switch} from 'react-router-dom';
 import {Login} from "../features/login/login";
 import {initialazedThunkAT, logoutThunkAT} from "../features/login/loginReduser";
 
@@ -61,13 +61,17 @@ function AppWithRedux() {
                 {progresLoad.status === 'loading' && <LinearProgress/>}
             </AppBar>
             <Container fixed>
+                <Switch>
+                    <Route exact path="/">
+                        <TodoListsList/>
+                    </Route>
+                    <Route exact path="/login">
+                        <Login/>
+                    </Route>
+                    <Route path={'/404'} render={() => <h1>404: PAGE NOT FOUND</h1>}/>
+                    <Redirect from={'*'} to={'/404'}/>
 
-                <Route exact path="/">
-                    <TodoListsList/>
-                </Route>
-                <Route exact path="/login">
-                    <Login/>
-                </Route>
+                </Switch>
 
 
             </Container>

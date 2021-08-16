@@ -35,10 +35,9 @@ export type ToDoListDomainType = TodolistType & {
 
 type todoListsType = {}
 const TodoListsList: React.FC<todoListsType> = (props) => {
-
+debugger
     useEffect(() => {
             dispatch(fetchTodolistsThunkAT())
-
         },
         [])
 
@@ -59,7 +58,7 @@ const TodoListsList: React.FC<todoListsType> = (props) => {
     }, [])
 
     const setFilterValue = useCallback((filter: FilterValuesType, toDoListId: string) => {
-        dispatch(ChangeToDoListFilterAT(filter, toDoListId))
+        dispatch(ChangeToDoListFilterAT({newFiltervalue: filter, toDoListID: toDoListId}))
     }, [])
 
     const addTask = useCallback(
@@ -104,10 +103,9 @@ const TodoListsList: React.FC<todoListsType> = (props) => {
             </Grid>
         )
     })
-    if (!loged ) {
+    if (!loged) {
         return <Redirect to='/login'/>
     }
-
 
 
     return (

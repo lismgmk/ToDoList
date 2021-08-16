@@ -1,14 +1,15 @@
 import React, {useCallback, useEffect} from "react";
 import AddItemForm from "../../../components/AddItemForm/AddItemForm";
 import EditableSpan from "../../../components/EditableSpan/EditableSpan";
-import {Button, IconButton} from "@material-ui/core";
+import {Button, CircularProgress, IconButton} from "@material-ui/core";
 import {Delete} from "@material-ui/icons";
 import {addTaskThunkAT, fetchTasksThunkAT, removeTaskThunkAT, TasksDomainType} from "../taskReduser";
 import {ChangeToDoListFilterAT, deleteTodolistsThunkAT, updateTodolistsThunkAT} from "../toDoListReduser";
 import Task from "./task/Task";
 import {TaskStatuses, TasksType, todolistAPI} from "../../../api/todolist-api";
-import {useDispatch} from "react-redux";
-import {RequestStatusType} from "../../../app/app-reduser";
+import {useDispatch, useSelector} from "react-redux";
+import {RequestStatusType, setAppStatusAC} from "../../../app/app-reduser";
+import { AppRootStateType } from "../../../app/store";
 
 
 type  PropsType = {
@@ -32,12 +33,13 @@ export type FilterValuesType = "all" | "active" | "completed"
 const TodoList = React.memo((props: PropsType) => {
     console.log('ToDoList')
 
+    const toDoListReduser = useSelector<AppRootStateType, any>(state => state.todolists)
 
     const dispatch = useDispatch();
+
     useEffect(() => {
-        debugger
         dispatch(fetchTasksThunkAT(props.id))
-    }, [])
+    }, [toDoListReduser])
 
     let allToDoLists = props.allTask;
     let taskForToDolist = allToDoLists;
@@ -52,18 +54,21 @@ const TodoList = React.memo((props: PropsType) => {
 
 
     const task = taskForToDolist.map((i) => {
-        return (
 
-            <Task
-                key={i.id}
-                idTodolist={props.id}
-                task={i}
-                chahgeTaskStatus={props.chahgeTaskStatus}
-                chahgeTaskTitle={props.chahgeTaskTitle}
-                removeTask={props.removeTask}
-            />
+            return (
 
-        )
+                <Task
+                    key={i.id}
+                    idTodolist={props.id}
+                    task={i}
+                    chahgeTaskStatus={props.chahgeTaskStatus}
+                    chahgeTaskTitle={props.chahgeTaskTitle}
+                    removeTask={props.removeTask}
+                />
+
+            )
+
+
     })
 
     const deleteToDoList = useCallback(() => props.deleteToDoList(props.id), [props.id]);

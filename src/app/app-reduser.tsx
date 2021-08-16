@@ -1,6 +1,5 @@
-import {ChangeToDoListTitleAT, RemoveToDoListAT} from "../features/todoListsList/toDoListReduser";
-import {Dispatch} from "redux";
-import {todolistAPI} from "../api/todolist-api";
+import { createSlice, PayloadAction} from "@reduxjs/toolkit";
+
 
 export type RequestStatusType = 'idle' | 'loading' | 'succeeded' | 'failed'
 
@@ -11,24 +10,22 @@ export const initialState = {
 
 export type InitialStateType = typeof initialState
 
-export const appReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
-    switch (action.type) {
-        case 'APP/SET-STATUS':
-            return {...state, status: action.status}
-            case 'APP/SET-ERROR':
-            return {...state, error: action.error}
-        default:
-            return state
-    }
-}
+const Slice = createSlice({
+    name: 'AppSlice',
+    initialState: initialState,
+    reducers: {
+        setAppStatusAC(state, action: PayloadAction<{status : RequestStatusType}>) {
+            state.status = action.payload.status
+        },
+        setAppErrorAC (state, action: PayloadAction<{error : string | null}>) {
+            state.error = action.payload.error
+        },
+    },
+})
+export const {setAppStatusAC, setAppErrorAC} = Slice.actions
 
-export const setAppStatusAC = (status : RequestStatusType)=> ({type: 'APP/SET-STATUS', status} as const)
-export const setAppErrorAC = (error : string | null)=> ({type: 'APP/SET-ERROR', error } as const)
+export const appReducer = Slice.reducer
 
-export type setAppStatusACType= ReturnType<typeof setAppStatusAC>
-export type setAppErrorACType= ReturnType<typeof setAppErrorAC>
 
-type ActionsType =
-    | setAppStatusACType
-    | setAppErrorACType
+
 

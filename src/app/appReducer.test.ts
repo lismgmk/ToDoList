@@ -12,14 +12,14 @@ beforeEach(()=>{
 
 
 test('correct task should be change status', () => {
-    const action = setAppStatusAC('succeeded');
+    const action = setAppStatusAC({status :'succeeded'});
     const endState =  appReducer(startState, action)
     expect(endState.status).toBe('succeeded');
 });
 
 
 test('correct task should be change error', () => {
-    const action = setAppErrorAC('error');
+    const action = setAppErrorAC({error:'error'});
     const endState =  appReducer(startState, action)
     expect(endState.error).toBe('error');
 });

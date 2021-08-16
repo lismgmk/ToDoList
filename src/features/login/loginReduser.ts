@@ -1,34 +1,42 @@
-import {setAppErrorACType, setAppStatusAC, setAppStatusACType} from "../../app/app-reduser";
+import { setAppStatusAC} from "../../app/app-reduser";
 import {Dispatch} from "redux";
 import {todolistAPI} from "../../api/todolist-api";
 import {handleServerAppError, handleServerNetworkError} from "../../utils/error-utils";
 import {initialazedAPI} from "../../api/initialazed-api";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import { ClearToDoAT } from "../todoListsList/toDoListReduser";
 
+export const initialState: initialStateLoginType = {
+    isLoggedIn: false,
+    initialazed: false
+};
 
-
-export const loginReduser = (state: initialStateLoginType = {isLoggedIn: false, initialazed: false}, action: ActionType): initialStateLoginType => {
-    switch (action.type) {
-        case "LOGIN/IS-LOGGED":
-            return {...state, isLoggedIn: action.isLoggedIn}
-            case "LOGIN/IS-INITIALAZED":
-            return {...state, initialazed: action.initialazed}
-        default:
-            return state
+const Slice = createSlice({
+    name: 'LoginSlice',
+    initialState: initialState,
+    reducers: {
+        isLoggedInAC(state, action: PayloadAction<{isLoggedIn: boolean}>){
+            state.isLoggedIn = action.payload.isLoggedIn
+        },
+        isInitialazedAC(state, action: PayloadAction<{initialazed: boolean}>){
+            state.initialazed = action.payload.initialazed
+        }
     }
-}
+})
 
-export const isLoggedInAC = (isLoggedIn: boolean) => ({type: "LOGIN/IS-LOGGED", isLoggedIn} as const)
-export const isInitialazedAC = (initialazed: boolean) => ({type: "LOGIN/IS-INITIALAZED", initialazed} as const)
+export const loginReduser = Slice.reducer
+
+export const{isLoggedInAC, isInitialazedAC}  = Slice.actions
 
 
 
-export const fetchFormThunkAT = (model: modelLoginStateType) => (dispatch: Dispatch<ActionType>) => {
-    dispatch(setAppStatusAC('loading'))
+export const fetchFormThunkAT = (model: modelLoginStateType) => (dispatch: Dispatch<any>) => {
+    dispatch(setAppStatusAC({status :'loading'}))
     todolistAPI.fetchForm(model)
         .then(data => {
             if (data.data.resultCode === 0) {
-                    dispatch(isLoggedInAC(true))
-                    dispatch(setAppStatusAC('succeeded'))
+                    dispatch(isLoggedInAC({isLoggedIn:true}))
+                    dispatch(setAppStatusAC({status :'succeeded'}))
                 } else {
                     handleServerAppError(data.data, dispatch)
                 }
@@ -36,18 +44,18 @@ export const fetchFormThunkAT = (model: modelLoginStateType) => (dispatch: Dispa
         )
 }
 
-export const initialazedThunkAT = () => (dispatch: Dispatch<ActionType>) => {
-    dispatch(isInitialazedAC(true))
-    debugger
+export const initialazedThunkAT = () => (dispatch: Dispatch<any>) => {
+    dispatch(isInitialazedAC({initialazed: true}))
+
     initialazedAPI.isLoged()
         .then(data => {
-            debugger
+
             if (data.data.resultCode === 0) {
-                dispatch(isInitialazedAC(false))
-                dispatch(isLoggedInAC(true))
+                dispatch(isInitialazedAC({initialazed: false}))
+                dispatch(isLoggedInAC({isLoggedIn: true}))
                 } else {
                     handleServerAppError(data.data, dispatch)
-                dispatch(isInitialazedAC(false))
+                dispatch(isInitialazedAC({initialazed: false}))
                 }
             }
         )
@@ -56,34 +64,26 @@ export const initialazedThunkAT = () => (dispatch: Dispatch<ActionType>) => {
             // dispatch(isInitialazedAC(false))
         })
 }
-export const logoutThunkAT = () => (dispatch: Dispatch<ActionType>) => {
-    dispatch(isInitialazedAC(true))
+export const logoutThunkAT = () => (dispatch: Dispatch<any>) => {
+    dispatch(isInitialazedAC({initialazed: true}))
     initialazedAPI.logOut()
         .then(data => {
             if (data.data.resultCode === 0) {
-                dispatch(isLoggedInAC(false))
-                dispatch(isInitialazedAC(false))
-                dispatch(setAppStatusAC('succeeded'))
+                dispatch(ClearToDoAT({}))
+                dispatch(isLoggedInAC({isLoggedIn:false}))
+                dispatch(isInitialazedAC({initialazed: false}))
+                dispatch(setAppStatusAC({status :'succeeded'}))
                 } else {
                     handleServerAppError(data.data, dispatch)
-                dispatch(isInitialazedAC(false))
+                dispatch(isInitialazedAC({initialazed: false}))
                 }
             }
         )
         .catch((error) => {
             handleServerNetworkError(error.message, dispatch)
-            dispatch(isInitialazedAC(false))
+            dispatch(isInitialazedAC({initialazed: false}))
         })
 }
-
-
-
-
-type ActionType =
-    | ReturnType<typeof isLoggedInAC>
-    | ReturnType<typeof isInitialazedAC>
-    | setAppStatusACType | setAppStatusACType | setAppErrorACType
-
 
 export type initialStateLoginType = {
     isLoggedIn: boolean
