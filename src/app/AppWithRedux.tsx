@@ -62,12 +62,10 @@ function AppWithRedux() {
             </AppBar>
             <Container fixed>
                 <Switch>
-                    <Route exact path="/">
-                        <TodoListsList/>
-                    </Route>
-                    <Route exact path="/login">
-                        <Login/>
-                    </Route>
+                    <Route exact path={"/ToDoList"} render={()=><TodoListsList/> }/>
+                    <Route exact path={"/"} render={()=><TodoListsList/> }/>
+                    <Route path={"/login"} render={()=><Login/>} />
+
                     <Route path={'/404'} render={() => <h1>404: PAGE NOT FOUND</h1>}/>
                     <Redirect from={'*'} to={'/404'}/>
 
